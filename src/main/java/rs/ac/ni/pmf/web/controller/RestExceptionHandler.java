@@ -1,5 +1,9 @@
 package rs.ac.ni.pmf.web.controller;
 
+import javax.persistence.PersistenceException;
+
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,6 +34,12 @@ public class RestExceptionHandler {
 		}
 
 		return new ErrorInfo(errorCode, e.getMessage());
+	}
+
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+	public ErrorInfo handlePersistenceException(DataIntegrityViolationException e) {
+		return new ErrorInfo(ErrorCode.DATABASE_ERROR, e.getMessage());
 	}
 
 	@ExceptionHandler(Exception.class)

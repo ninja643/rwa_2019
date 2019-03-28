@@ -10,12 +10,12 @@ public class StudentConverter {
 
 	public StudentDTO fromEntity(final StudentEntity entity) {
 		return StudentDTO.builder().id(entity.getId()).firstName(entity.getFirstName()).lastName(entity.getLastName())
-				.build();
+				.studentId(entity.getStudentId()).build();
 	}
 
 	public StudentEntity fromDto(final StudentDTO dto) {
 		return StudentEntity.builder().id(dto.getId()).firstName(dto.getFirstName()).lastName(dto.getLastName())
-				.build();
+				.studentId(dto.getStudentId()).build();
 	}
-	
+
 }

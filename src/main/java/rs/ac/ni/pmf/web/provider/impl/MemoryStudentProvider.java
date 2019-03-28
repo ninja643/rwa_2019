@@ -18,8 +18,8 @@ public class MemoryStudentProvider implements IStudentProvider {
 	private final Map<Integer, StudentDTO> students = new HashMap<>();
 
 	public MemoryStudentProvider() {
-		students.put(1, new StudentDTO(idGenerator.incrementAndGet(), "Pera", "Perić"));
-		students.put(2, new StudentDTO(idGenerator.incrementAndGet(), "Đoka", "Đokić"));
+		students.put(1, new StudentDTO(idGenerator.incrementAndGet(), "Pera", "Perić", "1"));
+		students.put(2, new StudentDTO(idGenerator.incrementAndGet(), "Đoka", "Đokić", "2"));
 	}
 
 	@Override
@@ -42,7 +42,8 @@ public class MemoryStudentProvider implements IStudentProvider {
 	public int addStudent(StudentDTO student) {
 		int generatedId = idGenerator.incrementAndGet();
 
-		students.put(generatedId, new StudentDTO(generatedId, student.getFirstName(), student.getLastName()));
+		students.put(generatedId,
+				new StudentDTO(generatedId, student.getFirstName(), student.getLastName(), student.getStudentId()));
 
 		return generatedId;
 	}
@@ -54,7 +55,8 @@ public class MemoryStudentProvider implements IStudentProvider {
 			throw new ResourceNotFoundException(ResourceType.STUDENT, "Student with id " + id + " does not exist");
 		}
 
-		final StudentDTO updated = new StudentDTO(id, student.getFirstName(), student.getLastName());
+		final StudentDTO updated = new StudentDTO(id, student.getFirstName(), student.getLastName(),
+				student.getStudentId());
 		students.put(id, updated);
 
 		return id;
