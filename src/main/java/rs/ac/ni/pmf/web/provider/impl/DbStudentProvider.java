@@ -6,8 +6,10 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import rs.ac.ni.pmf.web.exception.ResourceNotFoundException;
+import rs.ac.ni.pmf.web.exception.ResourceType;
 import rs.ac.ni.pmf.web.model.api.StudentDTO;
 import rs.ac.ni.pmf.web.model.converter.StudentConverter;
+import rs.ac.ni.pmf.web.model.data.InfoEntity;
 import rs.ac.ni.pmf.web.model.data.StudentEntity;
 import rs.ac.ni.pmf.web.provider.IStudentProvider;
 import rs.ac.ni.pmf.web.repository.StudentRepository;
@@ -28,27 +30,43 @@ public class DbStudentProvider implements IStudentProvider {
 
 	@Override
 	public StudentDTO getStudent(int id) throws ResourceNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+
+		StudentEntity studentEntity = studentRepository.findById(id).orElseThrow(
+				() -> new ResourceNotFoundException(ResourceType.STUDENT, "Student with id " + id + " not found"));
+
+		return converter.fromEntity(studentEntity);
 	}
 
 	@Override
 	public int addStudent(StudentDTO student) {
-		StudentEntity savedEntity = studentRepository.save(converter.fromDto(student));
+		StudentEntity studentEntity = converter.fromDto(student);
+		StudentEntity savedEntity = studentRepository.save(studentEntity);
 
+		
 		return savedEntity.getId();
 	}
 
 	@Override
 	public int updateStudent(int id, StudentDTO student) throws ResourceNotFoundException {
-		// TODO Auto-generated method stub
-		return 0;
+		StudentEntity studentEntity = studentRepository.findById(id).orElseThrow(
+				() -> new ResourceNotFoundException(ResourceType.STUDENT, "Student with id " + id + " not found"));
+
+		studentEntity.setFirstName(student.getFirstName());
+		studentEntity.setLastName(student.getLastName());
+		studentEntity.setStudentId(student.getStudentId());
+		
+		StudentEntity savedEntity = studentRepository.save(studentEntity);
+		
+		return savedEntity.getId();
 	}
 
 	@Override
 	public void deleteStudent(int id) throws ResourceNotFoundException {
-		// TODO Auto-generated method stub
+		if (!studentRepository.existsById(id)) {
+			throw new ResourceNotFoundException(ResourceType.STUDENT, "Student with id " + id + " not found");
+		}
 
+		studentRepository.deleteById(id);
 	}
 
 }

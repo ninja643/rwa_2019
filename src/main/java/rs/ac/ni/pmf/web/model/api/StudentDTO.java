@@ -1,5 +1,7 @@
 package rs.ac.ni.pmf.web.model.api;
 
+import java.util.List;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,4 +18,7 @@ public class StudentDTO {
 	private String firstName;
 	private String lastName;
 	private String studentId;
+	
+	private List<String> phones;
+	private List<String> emails;
 }
