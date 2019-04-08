@@ -21,7 +21,8 @@ public class SwaggerConfig implements WebMvcConfigurer
 				.select()
 				.apis(RequestHandlerSelectors.any())
 				.paths(PathSelectors.any())
-				.build();
+				.build()
+				.pathMapping("/services/rest");
 	}
 
 	@Override

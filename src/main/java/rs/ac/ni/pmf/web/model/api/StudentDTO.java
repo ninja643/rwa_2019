@@ -1,12 +1,9 @@
 package rs.ac.ni.pmf.web.model.api;
 
-import java.util.List;
+import lombok.*;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.Value;
+import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @Value
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
@@ -15,8 +12,13 @@ import lombok.Value;
 public class StudentDTO {
 
 	private int id;
+
+	@NotEmpty(message = "firstName cannot be null")
 	private String firstName;
+
+	@NotEmpty
 	private String lastName;
+
 	private String studentId;
 	
 	private List<String> phones;
