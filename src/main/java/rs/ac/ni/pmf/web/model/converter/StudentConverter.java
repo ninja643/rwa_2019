@@ -15,33 +15,35 @@ import rs.ac.ni.pmf.web.model.data.StudentEntity;
 import rs.ac.ni.pmf.web.repository.InfoRepository;
 
 @Component
-@Slf4j
-public class StudentConverter {
+public class StudentConverter
+{
 
 	@Autowired
 	private InfoRepository infoRepository;
 
-	public StudentDTO fromEntity(final StudentEntity entity) {
+	public StudentDTO fromEntity(final StudentEntity entity)
+	{
 
 		List<InfoEntity> infoEntites = infoRepository.findByStudent(entity);
 
 		List<String> phones = new ArrayList<>();
 		List<String> emails = new ArrayList<>();
 
-		log.info("Info repository returned {}", infoEntites != null ? "non-null" : "null");
-		
-		if (infoEntites != null) {
-			for (InfoEntity infoEntity : infoEntites) {
-				switch (infoEntity.getType()) {
-				case TEL:
-					phones.add(infoEntity.getValue());
-					break;
+		if (infoEntites != null)
+		{
+			for (InfoEntity infoEntity : infoEntites)
+			{
+				switch (infoEntity.getType())
+				{
+					case TEL:
+						phones.add(infoEntity.getValue());
+						break;
 
-				case EMAIL:
-					emails.add(infoEntity.getValue());
-					break;
-				default:
-					break;
+					case EMAIL:
+						emails.add(infoEntity.getValue());
+						break;
+					default:
+						break;
 				}
 			}
 		}
@@ -52,17 +54,21 @@ public class StudentConverter {
 		return studentDto;
 	}
 
-	public StudentEntity fromDto(final StudentDTO dto) {
+	public StudentEntity fromDto(final StudentDTO dto)
+	{
 
 		List<InfoEntity> infos = new ArrayList<>();
 
-		if (dto.getEmails() != null) {
+		if (dto.getEmails() != null)
+		{
 			infos.addAll(dto.getEmails().stream().map(v -> InfoEntity.builder().value(v).type(InfoType.EMAIL).build())
 					.collect(Collectors.toList()));
 		}
 
-		if (dto.getPhones() != null) {
-			for (String phone : dto.getPhones()) {
+		if (dto.getPhones() != null)
+		{
+			for (String phone : dto.getPhones())
+			{
 				InfoEntity entity = InfoEntity.builder().value(phone).type(InfoType.TEL).build();
 
 				infos.add(entity);
