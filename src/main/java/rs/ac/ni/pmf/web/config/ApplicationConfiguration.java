@@ -12,7 +12,7 @@ import rs.ac.ni.pmf.web.provider.impl.DbStudentProvider;
 @Configuration
 @EnableWebMvc
 @ComponentScan({ "rs.ac.ni.pmf.web.controller", "rs.ac.ni.pmf.web.model.converter" })
-@Import(PersistenceConfig.class)
+@Import({PersistenceConfig.class, SwaggerConfig.class})
 public class ApplicationConfiguration {
 
 	@Bean

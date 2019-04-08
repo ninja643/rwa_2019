@@ -19,6 +19,10 @@ public class AppInit implements WebApplicationInitializer {
 		context.register(ApplicationConfiguration.class);
 		
 		Dynamic servletRegistration = servletContext.addServlet("dispatcher", new DispatcherServlet(context));
+		servletRegistration.addMapping("/swagger-resources/configuration/ui");
+		servletRegistration.addMapping("/swagger-resources/configuration/security");
+		servletRegistration.addMapping("/swagger-resources");
+		servletRegistration.addMapping("/v2/api-docs");
 		servletRegistration.addMapping("/services/rest/*");
 		servletRegistration.setLoadOnStartup(1);
 	}
