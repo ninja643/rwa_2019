@@ -1,18 +1,16 @@
 package rs.ac.ni.pmf.web.model.converter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import lombok.extern.slf4j.Slf4j;
 import rs.ac.ni.pmf.web.model.InfoType;
 import rs.ac.ni.pmf.web.model.api.StudentDTO;
 import rs.ac.ni.pmf.web.model.data.InfoEntity;
 import rs.ac.ni.pmf.web.model.data.StudentEntity;
 import rs.ac.ni.pmf.web.repository.InfoRepository;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class StudentConverter
