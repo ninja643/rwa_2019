@@ -1,5 +1,7 @@
 package rs.ac.ni.pmf.web.exception;
 
 public enum ResourceType {
-	STUDENT
+	STUDENT,
+	COURSE,
+	STUDENT_COURSE
 }

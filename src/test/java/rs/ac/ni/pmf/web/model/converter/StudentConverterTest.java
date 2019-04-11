@@ -2,20 +2,19 @@ package rs.ac.ni.pmf.web.model.converter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.Test;
+
 import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Tested;
-import org.junit.Test;
-
 import rs.ac.ni.pmf.web.model.InfoType;
 import rs.ac.ni.pmf.web.model.api.StudentDTO;
 import rs.ac.ni.pmf.web.model.data.InfoEntity;
 import rs.ac.ni.pmf.web.model.data.StudentEntity;
 import rs.ac.ni.pmf.web.repository.InfoRepository;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class StudentConverterTest
 {

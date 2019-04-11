@@ -9,7 +9,6 @@ import rs.ac.ni.pmf.web.exception.ResourceNotFoundException;
 import rs.ac.ni.pmf.web.exception.ResourceType;
 import rs.ac.ni.pmf.web.model.api.StudentDTO;
 import rs.ac.ni.pmf.web.model.converter.StudentConverter;
-import rs.ac.ni.pmf.web.model.data.InfoEntity;
 import rs.ac.ni.pmf.web.model.data.StudentEntity;
 import rs.ac.ni.pmf.web.provider.IStudentProvider;
 import rs.ac.ni.pmf.web.repository.StudentRepository;
@@ -41,7 +40,6 @@ public class DbStudentProvider implements IStudentProvider {
 	public int addStudent(StudentDTO student) {
 		StudentEntity studentEntity = converter.fromDto(student);
 		StudentEntity savedEntity = studentRepository.save(studentEntity);
-
 		
 		return savedEntity.getId();
 	}
