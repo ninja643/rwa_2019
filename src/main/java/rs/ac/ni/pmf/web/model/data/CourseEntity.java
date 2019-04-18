@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -33,4 +34,7 @@ public class CourseEntity {
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	List<StudentEntity> students;
+	
+	@OneToMany(mappedBy = "course")
+	List<ProfessorCourseEntity> courseProfessors;
 }
