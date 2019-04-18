@@ -19,11 +19,9 @@ import lombok.RequiredArgsConstructor;
 import rs.ac.ni.pmf.web.exception.ResourceNotFoundException;
 import rs.ac.ni.pmf.web.model.api.ProfessorDTO;
 import rs.ac.ni.pmf.web.model.converter.ProfessorConverter;
-import rs.ac.ni.pmf.web.model.data.CourseEntity;
 import rs.ac.ni.pmf.web.model.data.ProfessorCourseEntity;
 import rs.ac.ni.pmf.web.model.data.ProfessorEntity;
 import rs.ac.ni.pmf.web.provider.impl.CommonProvider;
-import rs.ac.ni.pmf.web.repository.CourseRepository;
 import rs.ac.ni.pmf.web.repository.ProfessorCourseRepository;
 import rs.ac.ni.pmf.web.repository.ProfessorRepository;
 
