@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import rs.ac.ni.pmf.web.exception.ResourceNotFoundException;
@@ -13,6 +14,7 @@ import rs.ac.ni.pmf.web.model.converter.StudentConverter;
 import rs.ac.ni.pmf.web.model.data.StudentEntity;
 import rs.ac.ni.pmf.web.provider.IStudentProvider;
 import rs.ac.ni.pmf.web.repository.StudentRepository;
+import rs.ac.ni.pmf.web.specification.StudentSearchSpecification;
 
 @Component
 public class DbStudentProvider implements IStudentProvider {
@@ -42,7 +44,7 @@ public class DbStudentProvider implements IStudentProvider {
 	public int addStudent(StudentDTO student) {
 		StudentEntity studentEntity = converter.fromDto(student);
 		StudentEntity savedEntity = studentRepository.save(studentEntity);
-		
+
 		return savedEntity.getId();
 	}
 
@@ -54,9 +56,9 @@ public class DbStudentProvider implements IStudentProvider {
 		studentEntity.setFirstName(student.getFirstName());
 		studentEntity.setLastName(student.getLastName());
 		studentEntity.setStudentId(student.getStudentId());
-		
+
 		StudentEntity savedEntity = studentRepository.save(studentEntity);
-		
+
 		return savedEntity.getId();
 	}
 
@@ -70,8 +72,10 @@ public class DbStudentProvider implements IStudentProvider {
 	}
 
 	public List<StudentDTO> searchStudents(String firstNameFilter, String lastNameFilter) {
-		
-		
-		return null;
+
+		StudentSearchSpecification specification = new StudentSearchSpecification(firstNameFilter, lastNameFilter);
+
+		return studentRepository.findAll(specification).stream().map(e -> converter.fromEntity(e))
+				.collect(Collectors.toList());
 	}
 }

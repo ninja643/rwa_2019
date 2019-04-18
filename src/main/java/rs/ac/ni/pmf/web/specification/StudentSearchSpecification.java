@@ -31,12 +31,12 @@ public class StudentSearchSpecification implements Specification<StudentEntity> 
 		Path<String> firstName = root.get(StudentEntity_.firstName);
 		Path<String> lastName = root.get(StudentEntity_.lastName);
 
-		if (!firstNameFilter.isEmpty()) {
-			predicates.add(criteriaBuilder.like(firstName, firstNameFilter + "%"));
+		if ((firstNameFilter != null) && !firstNameFilter.isEmpty()) {
+			predicates.add(criteriaBuilder.like(criteriaBuilder.lower(firstName), firstNameFilter.toLowerCase() + "%"));
 		}
 
-		if (!lastNameFilter.isEmpty()) {
-			predicates.add(criteriaBuilder.like(lastName, lastNameFilter + "%"));
+		if ((lastNameFilter != null) && !lastNameFilter.isEmpty()) {
+			predicates.add(criteriaBuilder.like(criteriaBuilder.lower(lastName), lastNameFilter.toLowerCase() + "%"));
 		}
 
 		return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
