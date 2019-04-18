@@ -28,7 +28,7 @@ public class StudentRestController {
 
 	@RequestMapping(path = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public List<StudentDTO> getStudents() {
-		return studentProvider.getStudents();
+		return studentProvider.getAllStudents();
 	}
 
 	@RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

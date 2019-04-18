@@ -26,7 +26,7 @@ public class MemoryStudentProvider implements IStudentProvider {
 	}
 
 	@Override
-	public List<StudentDTO> getStudents() {
+	public List<StudentDTO> getAllStudents() {
 		return new ArrayList<>(students.values());
 	}
 

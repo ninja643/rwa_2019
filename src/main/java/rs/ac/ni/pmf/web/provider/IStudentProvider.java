@@ -7,7 +7,7 @@ import rs.ac.ni.pmf.web.model.api.StudentDTO;
 
 public interface IStudentProvider {
 
-	public List<StudentDTO> getStudents();
+	public List<StudentDTO> getAllStudents();
 	
 	public StudentDTO getStudent(int id) throws ResourceNotFoundException;
 	

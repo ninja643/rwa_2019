@@ -20,6 +20,7 @@ import rs.ac.ni.pmf.web.exception.ResourceNotFoundException;
 import rs.ac.ni.pmf.web.model.api.ProfessorDTO;
 import rs.ac.ni.pmf.web.model.converter.ProfessorConverter;
 import rs.ac.ni.pmf.web.model.data.ProfessorCourseEntity;
+import rs.ac.ni.pmf.web.model.data.ProfessorCourseEntity.ProfessorCourseId;
 import rs.ac.ni.pmf.web.model.data.ProfessorEntity;
 import rs.ac.ni.pmf.web.provider.impl.CommonProvider;
 import rs.ac.ni.pmf.web.repository.ProfessorCourseRepository;
@@ -61,8 +62,10 @@ public class ProfessorRestController {
 			@PathVariable(name = "courseId", required = true) int courseId,
 			@RequestParam(name = "year", required = true) @NotEmpty String year) throws ResourceNotFoundException {
 
-		ProfessorCourseEntity pce = ProfessorCourseEntity.builder().courseId(courseId).professorId(professorId)
+		ProfessorCourseId pcId = ProfessorCourseId.builder().courseId(courseId).professorId(professorId)
 				.year(year).build();
+		
+		ProfessorCourseEntity pce = ProfessorCourseEntity.builder().id(pcId).build();
 
 		professorCourseRepository.save(pce);
 	}

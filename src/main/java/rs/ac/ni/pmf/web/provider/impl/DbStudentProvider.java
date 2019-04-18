@@ -24,7 +24,7 @@ public class DbStudentProvider implements IStudentProvider {
 	private StudentConverter converter;
 
 	@Override
-	public List<StudentDTO> getStudents() {
+	public List<StudentDTO> getAllStudents() {
 
 		return studentRepository.findAll().stream().map(e -> converter.fromEntity(e)).collect(Collectors.toList());
 	}
@@ -69,4 +69,9 @@ public class DbStudentProvider implements IStudentProvider {
 		studentRepository.deleteById(id);
 	}
 
+	public List<StudentDTO> searchStudents(String firstNameFilter, String lastNameFilter) {
+		
+		
+		return null;
+	}
 }
