@@ -1,5 +1,6 @@
 package rs.ac.ni.pmf.web.config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -18,5 +19,10 @@ public class ApplicationConfiguration {
 	@Bean
 	public IStudentProvider getStudentProvider() {
 		return new DbStudentProvider();
+	}
+	
+	@Bean
+	public ModelMapper getModelMapper() {
+		return new ModelMapper();
 	}
 }
