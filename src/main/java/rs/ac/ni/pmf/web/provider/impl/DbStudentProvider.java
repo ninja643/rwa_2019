@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import rs.ac.ni.pmf.web.exception.ResourceNotFoundException;
 import rs.ac.ni.pmf.web.exception.ResourceType;
@@ -13,6 +14,7 @@ import rs.ac.ni.pmf.web.model.data.StudentEntity;
 import rs.ac.ni.pmf.web.provider.IStudentProvider;
 import rs.ac.ni.pmf.web.repository.StudentRepository;
 
+@Component
 public class DbStudentProvider implements IStudentProvider {
 
 	@Autowired

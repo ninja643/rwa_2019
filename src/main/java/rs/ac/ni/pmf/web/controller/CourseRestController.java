@@ -25,18 +25,19 @@ import rs.ac.ni.pmf.web.model.converter.CourseConverter;
 import rs.ac.ni.pmf.web.model.converter.StudentConverter;
 import rs.ac.ni.pmf.web.model.data.CourseEntity;
 import rs.ac.ni.pmf.web.model.data.StudentEntity;
+import rs.ac.ni.pmf.web.provider.impl.CommonProvider;
 import rs.ac.ni.pmf.web.repository.CourseRepository;
-import rs.ac.ni.pmf.web.repository.StudentRepository;
 
 @RestController
 @RequestMapping(path = "/course")
 @RequiredArgsConstructor
 public class CourseRestController {
 
-	private final CourseRepository courseRepository;
-	private final StudentRepository studentRepository;
+	private final CommonProvider commonProvider;
 
+	private final CourseRepository courseRepository;
 	private final CourseConverter courseConverter;
+	
 	private final StudentConverter studentConverter;
 
 	@RequestMapping(method = RequestMethod.GET, path = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -49,8 +50,7 @@ public class CourseRestController {
 	@RequestMapping(method = RequestMethod.GET, path = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public CourseDTO getById(@PathVariable(name = "id") int id) throws ResourceNotFoundException {
 
-		final CourseEntity courseEntity = courseRepository.findById(id).orElseThrow(
-				() -> new ResourceNotFoundException(ResourceType.COURSE, "Course with id " + id + " does not exist"));
+		final CourseEntity courseEntity = commonProvider.getCourse(id);
 
 		return courseConverter.fromEntity(courseEntity);
 	}
@@ -67,8 +67,7 @@ public class CourseRestController {
 	public int updateCourse(@PathVariable(name = "id") int id, @RequestBody @Valid CourseDTO courseDTO)
 			throws ResourceNotFoundException {
 
-		final CourseEntity courseEntity = courseRepository.findById(id).orElseThrow(
-				() -> new ResourceNotFoundException(ResourceType.COURSE, "Course with id " + id + " does not exist"));
+		final CourseEntity courseEntity = commonProvider.getCourse(id);
 
 		courseEntity.setName(courseDTO.getName());
 
@@ -87,9 +86,7 @@ public class CourseRestController {
 	@Transactional
 	public List<StudentDTO> getCourseStudents(@PathVariable(name = "courseId") int courseId)
 			throws ResourceNotFoundException {
-		final CourseEntity courseEntity = courseRepository.findById(courseId)
-				.orElseThrow(() -> new ResourceNotFoundException(ResourceType.COURSE,
-						"Course with id " + courseId + " does not exist"));
+		final CourseEntity courseEntity = commonProvider.getCourse(courseId);
 
 		return courseEntity.getStudents().stream().map(s -> studentConverter.fromEntity(s))
 				.collect(Collectors.toList());
@@ -101,13 +98,9 @@ public class CourseRestController {
 	public int addStudentToCourse(@PathVariable(name = "courseId") int courseId,
 			@PathVariable(name = "studentId") int studentId)
 			throws ResourceNotFoundException, DuplicateResourceException {
-		final CourseEntity courseEntity = courseRepository.findById(courseId)
-				.orElseThrow(() -> new ResourceNotFoundException(ResourceType.COURSE,
-						"Course with id " + courseId + " does not exist"));
+		final CourseEntity courseEntity = commonProvider.getCourse(courseId);
 
-		final StudentEntity studentEntity = studentRepository.findById(studentId)
-				.orElseThrow(() -> new ResourceNotFoundException(ResourceType.STUDENT,
-						"Course with id " + studentId + " does not exist"));
+		final StudentEntity studentEntity = commonProvider.getStudent(studentId);
 
 		if (courseEntity.getStudents().contains(studentEntity)) {
 			throw new DuplicateResourceException(ResourceType.STUDENT_COURSE,
