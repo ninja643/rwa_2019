@@ -34,8 +34,9 @@ public class StudentRestController {
 
 	@RequestMapping(path = "/search", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public List<StudentDTO> searchStudents(@RequestParam(name = "firstName", required = false) String firstNameFilter,
-			@RequestParam(name = "lastName", required = false) String lastNameFilter) {
-		return studentProvider.searchStudents(firstNameFilter, lastNameFilter);
+			@RequestParam(name = "lastName", required = false) String lastNameFilter, 
+			@RequestParam(name = "minEmails", required = false) Integer minEmails) {
+		return studentProvider.searchStudents(firstNameFilter, lastNameFilter, minEmails);
 	}
 
 	@RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

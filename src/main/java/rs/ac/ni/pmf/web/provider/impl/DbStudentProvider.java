@@ -71,9 +71,9 @@ public class DbStudentProvider implements IStudentProvider {
 		studentRepository.deleteById(id);
 	}
 
-	public List<StudentDTO> searchStudents(String firstNameFilter, String lastNameFilter) {
+	public List<StudentDTO> searchStudents(String firstNameFilter, String lastNameFilter, Integer minEmails) {
 
-		StudentSearchSpecification specification = new StudentSearchSpecification(firstNameFilter, lastNameFilter);
+		StudentSearchSpecification specification = new StudentSearchSpecification(firstNameFilter, lastNameFilter, minEmails);
 
 		return studentRepository.findAll(specification).stream().map(e -> converter.fromEntity(e))
 				.collect(Collectors.toList());

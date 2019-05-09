@@ -12,6 +12,8 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 
 import lombok.Value;
+import rs.ac.ni.pmf.web.model.InfoType;
+import rs.ac.ni.pmf.web.model.data.InfoEntity_;
 import rs.ac.ni.pmf.web.model.data.StudentEntity;
 import rs.ac.ni.pmf.web.model.data.StudentEntity_;
 
@@ -22,6 +24,7 @@ public class StudentSearchSpecification implements Specification<StudentEntity> 
 
 	private final String firstNameFilter;
 	private final String lastNameFilter;
+	private final Integer minEmailCount;
 
 	@Override
 	public Predicate toPredicate(Root<StudentEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
@@ -37,6 +40,15 @@ public class StudentSearchSpecification implements Specification<StudentEntity> 
 
 		if ((lastNameFilter != null) && !lastNameFilter.isEmpty()) {
 			predicates.add(criteriaBuilder.like(criteriaBuilder.lower(lastName), lastNameFilter.toLowerCase() + "%"));
+		}
+
+		if (minEmailCount != null) {
+			Path<InfoType> type = root.join(StudentEntity_.infos).get(InfoEntity_.type);
+
+			predicates.add(criteriaBuilder.equal(type, InfoType.EMAIL));
+
+			query.groupBy(root.get(StudentEntity_.id));
+			query.having(criteriaBuilder.ge(criteriaBuilder.count(type), minEmailCount));
 		}
 
 		return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
