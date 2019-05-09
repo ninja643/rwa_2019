@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import rs.ac.ni.pmf.web.exception.ResourceNotFoundException;
 import rs.ac.ni.pmf.web.model.api.StudentDTO;
+import rs.ac.ni.pmf.web.model.api.StudentLiteDTO;
 import rs.ac.ni.pmf.web.provider.impl.DbStudentProvider;
+import rs.ac.ni.pmf.web.searchoptions.StudentSearchOptions;
 
 @RestController
 @RequestMapping(path = "/student")
@@ -34,9 +36,16 @@ public class StudentRestController {
 
 	@RequestMapping(path = "/search", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public List<StudentDTO> searchStudents(@RequestParam(name = "firstName", required = false) String firstNameFilter,
-			@RequestParam(name = "lastName", required = false) String lastNameFilter, 
-			@RequestParam(name = "minEmails", required = false) Integer minEmails) {
-		return studentProvider.searchStudents(firstNameFilter, lastNameFilter, minEmails);
+			@RequestParam(name = "lastName", required = false) String lastNameFilter,
+			@RequestParam(name = "minEmails", required = false) Integer minEmails,
+			@RequestParam(name = "page", required = false) @Min(0) Integer page,
+			@RequestParam(name = "pageSize", required = false) Integer pageSize) {
+
+		final StudentSearchOptions searchOptions = StudentSearchOptions.builder().firstNameFilter(firstNameFilter)
+				.lastNameFilter(lastNameFilter).minEmailCount(minEmails).page(page == null || page < 0 ? 0 : page)
+				.count(pageSize == null || pageSize < 1 ? Integer.MAX_VALUE / 3 : pageSize).build();
+
+		return studentProvider.searchStudents(searchOptions);
 	}
 
 	@RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -59,5 +68,15 @@ public class StudentRestController {
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	public void deleteStudent(@PathVariable("id") int id) throws ResourceNotFoundException {
 		studentProvider.deleteStudent(id);
+	}
+
+	@RequestMapping(path = "/email/{courseId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public List<String> getEmailsByCourse(@PathVariable("courseId") final int courseId) {
+		return studentProvider.getEmailsByCourse(courseId);
+	}
+	
+	@RequestMapping(path = "/lite", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public List<StudentLiteDTO> getLiteData() {
+		return studentProvider.getStudentLiteData();
 	}
 }
